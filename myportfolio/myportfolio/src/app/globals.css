@@ -1,0 +1,241 @@
+@import "tailwindcss";
+
+/* ======= Font Face Definitions ======= */
+@font-face {
+  font-family: 'Makinas';
+  src: url('/fonts/Makinas-4-Flat.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Terano';
+  src: url('/fonts/Terano Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Terano';
+  src: url('/fonts/Terano Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Melete';
+  src: url('/fonts/Melete-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-melete {
+  font-family: 'Melete', sans-serif;
+}
+
+/* ======= CSS Variables ======= */
+:root {
+  --background: #0a0a0a;
+  --foreground: #e6e6e6;
+  --accent-magenta: #ff00c8;
+  --accent-cyan: #00f6ff;
+  --font-jp: 'Makinas', sans-serif;
+  --font-en: 'Terano', sans-serif;
+}
+
+/* ======= Base Styling ======= */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-jp);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ======= Language Switch ======= */
+.lang-jp {
+  font-family: var(--font-jp);
+}
+
+.lang-en {
+  font-family: var(--font-en);
+}
+
+/*====================*
+ * TYPOGRAPHY / TITLE
+ *====================*/
+.hud-title {
+  font-size: 3rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  background: linear-gradient(to right, var(--accent-cyan), var(--accent-magenta));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 0.25em;
+}
+
+.hud-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(to right, var(--accent-cyan), var(--accent-magenta));
+  box-shadow: 0 0 8px var(--accent-cyan), 0 0 8px var(--accent-magenta);
+}
+
+/*====================*
+ * BACKGROUND NOISE
+ *====================*/
+.bg-noise::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background-image: url('/noise.png');
+  background-repeat: repeat;
+  opacity: 0.04;
+  animation: noiseShift 60s linear infinite;
+  z-index: -2;
+  pointer-events: none;
+  display: block;
+}
+
+@keyframes noiseShift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-40px, -40px); }
+}
+
+/*====================*
+ * GRID LINES OVERLAY
+ *====================*/
+.bg-hud-overlay::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: -1;
+  animation: moveGrid 120s linear infinite;
+  pointer-events: none;
+  display: block;
+}
+
+@keyframes moveGrid {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-80px, -80px); }
+}
+
+/*====================*
+ * CUSTOM BUTTON
+ *====================*/
+.hud-button {
+  clip-path: polygon(10px 0%, 100% 0%, 100% 10px, 100% 100%, 90% 100%, 0% 100%, 0% 10px);
+  border: 2px solid var(--accent-cyan);
+  background: transparent;
+  color: var(--accent-cyan);
+  padding: 0.75rem 2rem;
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  transition: 0.3s;
+}
+
+.hud-button:hover {
+  background: var(--accent-cyan);
+  color: #000;
+  box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+/*====================*
+ * DIAGONAL PULSE LINE
+ *====================*/
+ @keyframes pulseLineDiagonal {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.3);
+  }
+  10% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  20% {
+    opacity: 0;
+    transform: scaleY(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0.3);
+  }
+}
+
+.line-overlay-diagonal,
+.line-overlay-diagonal-right {
+  position: fixed;
+  width: 2px;
+  height: 200vh; 
+  background: linear-gradient(to bottom, transparent, #00f6ff88, transparent);
+  transform: rotate(45deg);
+  transform-origin: center;
+  animation: pulseLineDiagonal 6s ease-in-out infinite;
+  animation-fill-mode: none;
+  z-index: -10;
+  pointer-events: none;
+}
+
+.line-overlay-diagonal {
+  top: 0;
+  left: 8vw; 
+}
+
+.line-overlay-diagonal-right {
+  bottom: 0;
+  right: 8vw;
+  background: linear-gradient(to top, transparent, #00f6ff88, transparent);
+}
+
+.slash_line_outer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+  overflow: hidden;
+  z-index: -5;
+  pointer-events: none;
+}
+
+.slash_position {
+  position: absolute;
+}
+
+.slash_position svg {
+  opacity: 0.2;
+  stroke: #00f6ff;
+  stroke-width: 1px;
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  animation: slash_line 3s ease-in-out reverse;
+}
+
+@keyframes slash_line {
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -800;
+  }
+}
+
+
